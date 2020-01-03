@@ -1,7 +1,11 @@
 'use strict'
 
-const cron = require('node-cron')
-cron.schedule('0 0 8 * * *', postRandomCard)
+if (process.env.DEBUG) {
+  postRandomCard()
+} else {
+  const cron = require('node-cron')
+  cron.schedule('0 0 8 * * *', postRandomCard)
+}
 
 function postRandomCard() {
   const webhook = require('webhook-discord')
