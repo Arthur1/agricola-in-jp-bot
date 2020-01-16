@@ -1,11 +1,6 @@
 'use strict'
 
-if (process.env.DEBUG) {
-  postRandomCard()
-} else {
-  const cron = require('node-cron')
-  cron.schedule('0 0 8 * * *', postRandomCard)
-}
+postRandomCard()
 
 function postRandomCard() {
   const webhook = require('webhook-discord')
@@ -40,3 +35,8 @@ function postRandomCard() {
   Hook.send(message)
 }
 
+/*
+  SELECT * FROM `cards_master` 
+  WHERE deck NOT IN ("WB", "RR", "RR5", "RM", "OR", "OM", "ME", "MF", "L17", "L18", "L5", "LR")
+  ORDER BY `cards_master`.`card_id`  ASC
+*/

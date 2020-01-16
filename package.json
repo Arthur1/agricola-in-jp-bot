@@ -4,7 +4,6 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
-    "node-cron": "^2.0.3",
     "webhook-discord": "^3.5.1"
   },
   "devDependencies": {},
