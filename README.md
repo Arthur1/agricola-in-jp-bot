@@ -7,12 +7,22 @@
 ## init
 
 ```sh
-nodenv install 12.14.0
+nodenv install 12.16.1
+exec $SHELL -l
+cd agricola-today-card-bot/
 npm install
+cp .env.sample .env
+vim .env
+```
+
+.envファイルにDiscordのWebhookURLを入力してください。
+
+```
+WEBHOOK_ENDPOINT='https://discordapp.com/api/webhooks/hoge/fuga'
 ```
 
 ## exec
 
 ```sh
-WEBHOOK_ENDPOINT="https://hoge.com/" node main.js
+node main.js
 ```

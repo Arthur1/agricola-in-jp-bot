@@ -4,6 +4,7 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "webhook-discord": "^3.5.1"
   },
   "devDependencies": {},

@@ -1,38 +1,40 @@
 'use strict'
 
-postRandomCard()
+require('dotenv').config()
+const webhook = require('webhook-discord')
+const cardsMaster = require('./cards_master.json')
+const decksMaster = require('./decks_master.json')
 
-function postRandomCard() {
-  const webhook = require('webhook-discord')
+main()
+
+function main() {
+  const cards = cardsMaster[2].data
+  const card = cards[Math.floor(Math.random() * cards.length)]
+  const message = createMessage(card)
+
   const endpoint = process.env.WEBHOOK_ENDPOINT
   const Hook = new webhook.Webhook(endpoint)
+  Hook.send(message)
+}
 
-  const cardsMaster = require('./cards_master.json')
-  const decksMaster = require('./decks_master.json')
-
-  let cards = cardsMaster[2].data
-  let card = cards[Math.floor(Math.random() * cards.length)]
-
+function createMessage(card) {
   const message = new webhook.MessageBuilder()
   message.setName('今日のアグリコラカードBot')
   message.setTitle(`[${card.card_id_display}] ${card.japanese_name}`)
-
-  let color = card.type === 'occupation' ? '#FBC02D' : '#F57C00'
-  message.setColor(color)
-
   message.addField('デッキ', decksMaster[card.deck])
 
   if (card.type === 'occupation') {
+    message.setColor('#FBC02D')
     message.addField('カテゴリー', card.category + '+')
   } else {
+    message.setColor('#F57C00')
     if (card.prerequisite) message.addField('前提', card.prerequisite)
     if (card.costs) message.addField('コスト', card.costs)
-    if (card.cardPoints) message.addField('カード点', card.cardPoints + '点')
+    if (card.card_points != 0) message.addField('カード点', card.card_points + '点')
   }
 
-  message.addField('効果', card.description)
-
-  Hook.send(message)
+  message.addField('テキスト', card.description)
+  return message
 }
 
 /*
